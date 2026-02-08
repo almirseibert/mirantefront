@@ -5,6 +5,11 @@ import { toast } from 'react-toastify';
 import { Clock, CheckCheck } from 'lucide-react';
 
 const KitchenKDS = () => {
+    const socket = io(import.meta.env.VITE_SOCKET_URL, {
+            transports: ['websocket', 'polling'],
+            reconnectionAttempts: 5,
+            timeout: 20000
+        });
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {

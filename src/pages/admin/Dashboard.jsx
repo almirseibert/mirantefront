@@ -4,6 +4,11 @@ import { PlusCircle, Ban, CheckCircle, DollarSign, Utensils } from 'lucide-react
 import { toast } from 'react-toastify';
 
 const AdminDashboard = () => {
+    const socket = io(import.meta.env.VITE_SOCKET_URL, {
+            transports: ['websocket', 'polling'],
+            reconnectionAttempts: 5,
+            timeout: 20000
+        });
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [newProduct, setNewProduct] = useState({

@@ -29,6 +29,11 @@ const TableCard = ({ table, onClick }) => {
 };
 
 const WaiterDashboard = () => {
+    const socket = io(import.meta.env.VITE_SOCKET_URL, {
+            transports: ['websocket', 'polling'],
+            reconnectionAttempts: 5,
+            timeout: 20000
+        });
     const [tables, setTables] = useState([]);
     const [products, setProducts] = useState([]);
     const [selectedTable, setSelectedTable] = useState(null);

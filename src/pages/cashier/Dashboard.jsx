@@ -5,6 +5,11 @@ import { toast } from 'react-toastify';
 import { DollarSign, CreditCard, Banknote, Smartphone, Printer, User } from 'lucide-react';
 
 const CashierDashboard = () => {
+    const socket = io(import.meta.env.VITE_SOCKET_URL, {
+            transports: ['websocket', 'polling'],
+            reconnectionAttempts: 5,
+            timeout: 20000
+        });
     const [tables, setTables] = useState([]);
     const [selectedTable, setSelectedTable] = useState(null);
     const [paymentMethod, setPaymentMethod] = useState('CREDIT_CARD');
