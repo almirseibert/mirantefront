@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { UtensilsCrossed, Lock, User } from 'lucide-react'; // Ícones
-import { toast } from 'react-toastify'; // Notificações (Instalar depois se não tiver)
+import { Lock, User } from 'lucide-react';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -19,7 +18,6 @@ const Login = () => {
         const result = await signIn(username, password);
 
         if (result.success) {
-            // Redirecionamento inteligente baseado no cargo (Role)
             const user = JSON.parse(localStorage.getItem('mirante_user'));
             
             switch(user.role) {
@@ -32,82 +30,76 @@ const Login = () => {
                 default: navigate('/');
             }
         } else {
-            // Se usar react-toastify: toast.error(result.message);
-            alert(result.message); // Fallback simples
+            alert(result.message);
         }
         
         setIsLoading(false);
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-2xl w-full max-w-md overflow-hidden">
+        <div className="min-h-screen flex items-center justify-center p-4">
+            <div className="bg-black/80 backdrop-blur-md rounded-2xl shadow-2xl w-full max-w-md overflow-hidden border border-gray-800">
                 
-                {/* Cabeçalho com Logo/Ícone */}
-                <div className="bg-primary p-8 text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 mb-4">
-                        <UtensilsCrossed className="w-8 h-8 text-white" />
+                {/* Cabeçalho com Logo */}
+                <div className="p-10 text-center flex flex-col items-center">
+                    <div className="w-32 h-32 mb-6 rounded-full bg-black border-2 border-white/20 flex items-center justify-center overflow-hidden shadow-lg">
+                        {/* Imagem da Logo */}
+                        <img 
+                            src="/assets/logo.jpg" 
+                            alt="Mirante Logo" 
+                            className="w-full h-full object-cover"
+                        />
                     </div>
-                    <h1 className="text-2xl font-bold text-white">Mirante Gastro Pub</h1>
-                    <p className="text-blue-200 text-sm mt-2">Acesso Restrito aos Colaboradores</p>
+                    <h2 className="text-white text-xl font-bold tracking-widest uppercase">Sistema Interno</h2>
+                    <div className="h-1 w-16 bg-white/30 mt-4 rounded-full"></div>
                 </div>
 
                 {/* Formulário */}
-                <div className="p-8">
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="px-8 pb-10">
+                    <form onSubmit={handleSubmit} className="space-y-5">
                         
-                        {/* Campo Usuário */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Usuário</label>
-                            <div className="relative">
+                            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Usuário</label>
+                            <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <User className="h-5 w-5 text-gray-400" />
+                                    <User className="h-5 w-5 text-gray-500 group-focus-within:text-white transition-colors" />
                                 </div>
                                 <input
                                     type="text"
                                     required
-                                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
-                                    placeholder="Seu usuário de acesso"
+                                    className="block w-full pl-10 pr-3 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all"
+                                    placeholder="Digite seu usuário"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
                                 />
                             </div>
                         </div>
 
-                        {/* Campo Senha */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Senha</label>
-                            <div className="relative">
+                            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Senha</label>
+                            <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Lock className="h-5 w-5 text-gray-400" />
+                                    <Lock className="h-5 w-5 text-gray-500 group-focus-within:text-white transition-colors" />
                                 </div>
                                 <input
                                     type="password"
                                     required
-                                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary sm:text-sm"
-                                    placeholder="Sua senha secreta"
+                                    className="block w-full pl-10 pr-3 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all"
+                                    placeholder="••••••••"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                         </div>
 
-                        {/* Botão de Entrar */}
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-800 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                            className={`w-full mt-6 flex justify-center py-4 px-4 border border-transparent rounded-lg text-sm font-bold text-black bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white transition-all uppercase tracking-widest ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:scale-[1.02]'}`}
                         >
-                            {isLoading ? 'Entrando...' : 'Acessar Sistema'}
+                            {isLoading ? 'Autenticando...' : 'Acessar'}
                         </button>
                     </form>
-                </div>
-                
-                {/* Rodapé */}
-                <div className="bg-gray-50 px-8 py-4 border-t border-gray-200 text-center">
-                    <p className="text-xs text-gray-500">
-                        &copy; 2026 Digital Plus+ Sistemas - v1.0
-                    </p>
                 </div>
             </div>
         </div>
