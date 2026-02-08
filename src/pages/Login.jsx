@@ -106,7 +106,7 @@ const Login = () => {
                 {/* Rodapé */}
                 <div className="bg-gray-50 px-8 py-4 border-t border-gray-200 text-center">
                     <p className="text-xs text-gray-500">
-                        &copy; 2026 MAK Sistemas - v1.0
+                        &copy; 2026 Digital Plus+ Sistemas - v1.0
                     </p>
                 </div>
             </div>
